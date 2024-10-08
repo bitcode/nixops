@@ -2,18 +2,14 @@
 
 {
   environment.systemPackages = with pkgs; [
-    # Stable packages
+    unstablePkgs.neovim
+    tree
     lsd
     zoxide
     nix
     rustc
     nodejs_20
     vimPlugins.luasnip
-
-    # Unstable packages from unstablePkgs
-    unstablePkgs.neovim
-
-    # More stable packages
     alacritty
     lua5_1
     lua51Packages.luarocks
@@ -67,6 +63,7 @@
     xz
     zlib
     zsh
+    flameshot
   ];
 
   # Set Lua 5.1 as the default Lua interpreter

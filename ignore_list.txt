@@ -1,0 +1,2 @@
+multi_clip.sh
+ignore_list.txt

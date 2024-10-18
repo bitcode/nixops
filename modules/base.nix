@@ -1,12 +1,30 @@
+# base.nix
 { config, pkgs, unstablePkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
     unstablePkgs.neovim
     tree
+    lynx
+    nmap
+    curl
+    kdePackages.okular
+    pandoc
+    imagemagick
+    exiftool
+    unrar
+    libarchive
+    poppler
+    mupdf
+    brightnessctl
+    freetype
+    libxkbcommon
+    tcpdump
     lsd
     zoxide
     nix
+    pciutils
+    jq
     rustc
     nodejs_20
     vimPlugins.luasnip
@@ -15,38 +33,50 @@
     lua51Packages.luarocks
     tree-sitter
     wget
+    build-essentials
     readline
     ripgrep
     bzip2
     clang
     ranger
+    inxi
     clang-tools
     cmake
-    feh
     fd
     fontconfig
-    gcc
+    libgcc
     git
     go
     gnumake
     google-chrome
-    i3
-    i3blocks
     libffi
     llvm
     nasm
     nerdfonts
+    poppler-utils
+    atool
+    mediainfo
+    nettools
+    dhcpcd
     nodejs
     openssh
     openssl
-    picom
     pkg-config
     python3
     python311Packages.pip
     readline
-    rofi
     rustup
     fzf
+    ninja
+    lazygit
+    mdp
+    gh
+    acpid
+    linuxHeaders
+    gettext
+    autoconf
+    automake
+    highlight
     zsh-autosuggestions
     zsh-history-substring-search
     zsh-syntax-highlighting
@@ -58,12 +88,12 @@
     tmux
     typescript
     unzip
-    xclip
-    xsel
     xz
     zlib
     zsh
     flameshot
+    pipewire
+    pwvucontrol
   ];
 
   # Set Lua 5.1 as the default Lua interpreter

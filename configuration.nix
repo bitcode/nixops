@@ -1,19 +1,35 @@
+# configuration.nix
 { config, pkgs, unstablePkgs, ... }:
-
+let
+  parameters = config.parameters or {
+    windowManager = "xorg";
+    gpu = "nvidia";
+    cpu = "intel";
+    hostName = "nixops";
+  };
+in
 {
   imports = [
-    ./hardware-configuration.nix
-    ./programs.nix
-    ./services.nix
+    ./modules/base.nix
+    ./modules/services.nix
+
+    # Conditionally include window environment
+    (if parameters.windowManager == "xorg" || parameters.windowManager == "i3" then ./modules/window-environments/xorg.nix else null)
+    (if parameters.windowManager == "wayland" || parameters.windowManager == "sway" then ./modules/window-environments/wayland.nix else null)
+
+    # Conditionally include GPU configuration
+    (if parameters.gpu == "nvidia" then ./modules/hardware/gpu/nvidia.nix else null)
+    (if parameters.gpu == "amd" then ./modules/hardware/gpu/amd.nix else null)
+    (if parameters.gpu == "intel" then ./modules/hardware/gpu/integrated-intel-graphics.nix else null)
+
+    # Conditionally include CPU configuration
+    (if parameters.cpu == "intel" then ./modules/hardware/cpu/intel.nix else null)
+    (if parameters.cpu == "ryzen" then ./modules/hardware/cpu/ryzen.nix else null)
   ];
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-  };
-
+  # Common configurations
   networking = {
-    hostName = "nixops";
+    hostName = parameters.hostName;
     networkmanager.enable = true;
   };
 
@@ -21,22 +37,13 @@
 
   users.users.bit = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Allows sudo access
+    extraGroups = [ "wheel" ];
   };
 
   fonts = {
     fontconfig.enable = true;
-    packages = with pkgs; [
-      (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-    ];
+    packages = [ (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  nix.settings.nix-path = [
-    "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-    "nixos-config=/etc/nixos/configuration.nix"
-  ];
-
 }
-

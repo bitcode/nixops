@@ -5,7 +5,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixos-config.url = "git@github.com:bitcode/nixops.git";
+    nixos-config.url = "https://github.com/bitcode/nixops";
   };
 
     outputs = { self, nixpkgs, nixpkgs-unstable, ... }:

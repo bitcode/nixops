@@ -46,4 +46,18 @@ in
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # DPMS and screen saver settings
+  services.xserver = {
+    serverFlagsSection = ''
+      Option "BlankTime" "0"
+      Option "StandbyTime" "0"
+      Option "SuspendTime" "0"
+      Option "OffTime" "0"
+    '';
+    displayManager.sessionCommands = ''
+      ${pkgs.xorg.xset}/bin/xset s off
+      ${pkgs.xorg.xset}/bin/xset -dpms
+    '';
+  };
 }
